@@ -1,0 +1,351 @@
+--------------------------------------------------------
+--  File created - Thursday-November-03-2016   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for DB Link NSI.DB.LAB.ETF.UNSA.BA
+--------------------------------------------------------
+
+  CREATE DATABASE LINK "NSI.DB.LAB.ETF.UNSA.BA"
+   CONNECT TO "NSI" IDENTIFIED BY VALUES '0596A4A8BB60AD9BB134F54776B4C12F4B'
+   USING '(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 80.65.65.66)(PORT = 1521))   
+                         (CONNECT_DATA =  (SERVER = DEDICATED)
+                                          (SERVICE_NAME = etflab.db.lab.etf.unsa.ba)
+                         )
+          )';
+--------------------------------------------------------
+--  DDL for Table CONSTRAINT
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."CONSTRAINT" 
+   (	"ID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20), 
+	"VALUE" NVARCHAR2(1000), 
+	"DESCRIPTION" NVARCHAR2(50)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table DATATYPE
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."DATATYPE" 
+   (	"ID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table DATATYPECONSTRAINT
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."DATATYPECONSTRAINT" 
+   (	"ID" NUMBER(*,0), 
+	"DATATYPEID" NUMBER(*,0), 
+	"CONSTRAINTID" NUMBER(*,0)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table HISTORY
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."HISTORY" 
+   (	"ID" NUMBER(*,0), 
+	"TEMPLATEDEFINITIONID" NUMBER(*,0), 
+	"USERID" NUMBER(*,0), 
+	"TEMPLATECONTENT" NVARCHAR2(1000)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table OPERATION
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."OPERATION" 
+   (	"ID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table PLACEHOLDER
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."PLACEHOLDER" 
+   (	"ID" NUMBER(*,0), 
+	"TEMPLATEDEFINITIONID" NUMBER(*,0), 
+	"DATATYPEID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20), 
+	"DESCRIPTION" NVARCHAR2(50)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table TEMPLATE
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."TEMPLATE" 
+   (	"ID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table TEMPLATEDEFINITION
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."TEMPLATEDEFINITION" 
+   (	"ID" NUMBER(*,0), 
+	"TEMPLATEID" NUMBER(*,0), 
+	"TEMPLATETYPEID" NUMBER(*,0), 
+	"RELATIVEPATH" NVARCHAR2(50), 
+	"DESCRIPTION" NVARCHAR2(50), 
+	"VERSION" NVARCHAR2(20), 
+	"ACTIVE" CHAR(1 BYTE)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table TEMPLATEPRIVILEGE
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."TEMPLATEPRIVILEGE" 
+   (	"ID" NUMBER(*,0), 
+	"TEMPLATEID" NUMBER(*,0), 
+	"ROLEID" NUMBER(*,0), 
+	"OPERATIONID" NUMBER(*,0)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Table TEMPLATETYPE
+--------------------------------------------------------
+
+  CREATE TABLE "NSI04"."TEMPLATETYPE" 
+   (	"ID" NUMBER(*,0), 
+	"NAME" NVARCHAR2(20)
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+REM INSERTING into NSI04.CONSTRAINT
+SET DEFINE OFF;
+REM INSERTING into NSI04.DATATYPE
+SET DEFINE OFF;
+REM INSERTING into NSI04.DATATYPECONSTRAINT
+SET DEFINE OFF;
+REM INSERTING into NSI04.HISTORY
+SET DEFINE OFF;
+REM INSERTING into NSI04.OPERATION
+SET DEFINE OFF;
+REM INSERTING into NSI04.PLACEHOLDER
+SET DEFINE OFF;
+REM INSERTING into NSI04.TEMPLATE
+SET DEFINE OFF;
+REM INSERTING into NSI04.TEMPLATEDEFINITION
+SET DEFINE OFF;
+REM INSERTING into NSI04.TEMPLATEPRIVILEGE
+SET DEFINE OFF;
+REM INSERTING into NSI04.TEMPLATETYPE
+SET DEFINE OFF;
+--------------------------------------------------------
+--  DDL for Index TEMPLATE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TEMPLATE_PK" ON "NSI04"."TEMPLATE" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index OPERATIONS_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."OPERATIONS_PK" ON "NSI04"."OPERATION" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index TEMPLATETYPE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TEMPLATETYPE_PK" ON "NSI04"."TEMPLATETYPE" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index TEMPLATEDEFINITION_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TEMPLATEDEFINITION_PK" ON "NSI04"."TEMPLATEDEFINITION" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index TEMPLATEPRIVILEGES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TEMPLATEPRIVILEGES_PK" ON "NSI04"."TEMPLATEPRIVILEGE" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index CONSTRAINT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."CONSTRAINT_PK" ON "NSI04"."CONSTRAINT" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index TYPECONSTRAINT_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TYPECONSTRAINT_PK" ON "NSI04"."DATATYPECONSTRAINT" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index HISTORY_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."HISTORY_PK" ON "NSI04"."HISTORY" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index PLACEHOLDER_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."PLACEHOLDER_PK" ON "NSI04"."PLACEHOLDER" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  DDL for Index TYPE_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "NSI04"."TYPE_PK" ON "NSI04"."DATATYPE" ("ID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB" ;
+--------------------------------------------------------
+--  Constraints for Table OPERATION
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."OPERATION" ADD CONSTRAINT "OPERATIONS_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+ 
+  ALTER TABLE "NSI04"."OPERATION" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."OPERATION" MODIFY ("NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table TEMPLATETYPE
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."TEMPLATETYPE" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATETYPE" MODIFY ("NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATETYPE" ADD CONSTRAINT "TEMPLATETYPE_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TEMPLATEDEFINITION
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" MODIFY ("TEMPLATEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" MODIFY ("TEMPLATETYPEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" MODIFY ("RELATIVEPATH" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" MODIFY ("ACTIVE" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEDEFINITION" ADD CONSTRAINT "TEMPLATEDEFINITION_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TEMPLATEPRIVILEGE
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."TEMPLATEPRIVILEGE" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEPRIVILEGE" MODIFY ("TEMPLATEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEPRIVILEGE" MODIFY ("ROLEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEPRIVILEGE" MODIFY ("OPERATIONID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATEPRIVILEGE" ADD CONSTRAINT "TEMPLATEPRIVILEGES_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table DATATYPE
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."DATATYPE" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."DATATYPE" MODIFY ("NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."DATATYPE" ADD CONSTRAINT "TYPE_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PLACEHOLDER
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."PLACEHOLDER" ADD CONSTRAINT "PLACEHOLDER_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+ 
+  ALTER TABLE "NSI04"."PLACEHOLDER" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."PLACEHOLDER" MODIFY ("TEMPLATEDEFINITIONID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."PLACEHOLDER" MODIFY ("DATATYPEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."PLACEHOLDER" MODIFY ("NAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table TEMPLATE
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."TEMPLATE" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATE" MODIFY ("NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."TEMPLATE" ADD CONSTRAINT "TEMPLATE_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table HISTORY
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."HISTORY" ADD CONSTRAINT "HISTORY_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+ 
+  ALTER TABLE "NSI04"."HISTORY" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."HISTORY" MODIFY ("TEMPLATEDEFINITIONID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."HISTORY" MODIFY ("USERID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."HISTORY" MODIFY ("TEMPLATECONTENT" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table DATATYPECONSTRAINT
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."DATATYPECONSTRAINT" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."DATATYPECONSTRAINT" MODIFY ("DATATYPEID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."DATATYPECONSTRAINT" MODIFY ("CONSTRAINTID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."DATATYPECONSTRAINT" ADD CONSTRAINT "TYPECONSTRAINT_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table CONSTRAINT
+--------------------------------------------------------
+
+  ALTER TABLE "NSI04"."CONSTRAINT" ADD CONSTRAINT "CONSTRAINT_PK" PRIMARY KEY ("ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 NOCOMPRESS LOGGING
+  TABLESPACE "ETFLAB"  ENABLE;
+ 
+  ALTER TABLE "NSI04"."CONSTRAINT" MODIFY ("ID" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."CONSTRAINT" MODIFY ("NAME" NOT NULL ENABLE);
+ 
+  ALTER TABLE "NSI04"."CONSTRAINT" MODIFY ("VALUE" NOT NULL ENABLE);
