@@ -1,10 +1,12 @@
 com\reporttemplateengine\dao\TemplateTypeDAO.class
 com\reporttemplateengine\controller\ReportEngineController.class
+com\reporttemplateengine\controller\TemplateController.class
 com\reporttemplateengine\helpers\Constants.class
 com\reporttemplateengine\models\TemplateType.class
 com\reporttemplateengine\dao\ICrud.class
 com\reporttemplateengine\controller\TemplateTypeController.class
-com\reporttemplateengine\validators\TemplateTypeValidator.class
 com\reporttemplateengine\helpers\HttpStatusSerializer.class
+com\reporttemplateengine\dao\TemplateDAO.class
+com\reporttemplateengine\models\Template.class
 com\reporttemplateengine\helpers\ApiResponse.class
 com\reporttemplate\engine\services\JOpenDocumentService.class

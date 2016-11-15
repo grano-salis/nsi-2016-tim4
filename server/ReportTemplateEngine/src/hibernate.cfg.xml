@@ -9,5 +9,6 @@
     <property name="format_sql">true</property>
     <property name="hibernate.default_schema">SYSTEM</property>
     <mapping resource="com/reporttemplateengine/models/TemplateType.hbm.xml"/>
+    <mapping resource="com/reporttemplateengine/models/Template.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

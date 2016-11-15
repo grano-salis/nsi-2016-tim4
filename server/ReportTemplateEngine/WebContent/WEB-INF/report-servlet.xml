@@ -52,6 +52,11 @@
 	        <ref bean="sessionFactory" />
 	    </constructor-arg>
 	</bean>
+	<bean id="TemplateDAO" class="com.reporttemplateengine.dao.TemplateDAO">
+	    <constructor-arg>
+	        <ref bean="sessionFactory" />
+	    </constructor-arg>
+	</bean>
 
 	<mvc:annotation-driven />
 	<mvc:resources location="/assets/css/**" mapping="css/**"/>
