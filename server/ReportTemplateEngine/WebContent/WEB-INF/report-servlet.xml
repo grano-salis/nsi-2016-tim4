@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:tx="http://www.springframework.org/schema/tx"
@@ -50,70 +49,4 @@
 	<mvc:annotation-driven />
 	<mvc:resources location="/assets/css/**" mapping="css/**"/>
 	<mvc:resources location="/assets/js/**" mapping="js/**"/>
-=======
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-        http://www.springframework.org/schema/beans     
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/mvc 
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-        http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context.xsd">
- 
- 	<context:component-scan base-package="com.reporttemplateengine" />
- 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-	
-	<bean id="multipartResolver"
-				class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	</bean>
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-	    <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-	    <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"/>
-	    <property name="username" value="SYSTEM"/>
-	    <property name="password" value="Oraclensi1"/>
-	</bean>
-	
-	<bean id="sessionFactory"
-	    class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-	    <property name="dataSource" ref="dataSource" />
-	    <property name="configLocation" value="classpath:hibernate.cfg.xml" />
-	</bean>
-
-	<tx:annotation-driven />
-	<bean id="transactionManager"
-	    class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	
-	<!-- Application beans -->
-	<bean id="TemplateTypeDAO" class="com.reporttemplateengine.dao.TemplateTypeDAO">
-	    <constructor-arg>
-	        <ref bean="sessionFactory" />
-	    </constructor-arg>
-	</bean>
-	<bean id="TemplateDAO" class="com.reporttemplateengine.dao.TemplateDAO">
-	    <constructor-arg>
-	        <ref bean="sessionFactory" />
-	    </constructor-arg>
-	</bean>
-
-	<mvc:annotation-driven />
-	<mvc:resources location="/assets/css/" mapping="/css/**"/>
-	<mvc:resources location="/assets/js/" mapping="/js/**"/>
-	<mvc:resources location="/assets/img/" mapping="/img/**"/>
->>>>>>> 3261a047ac30b3081d0d238185f78de532f82c2d
 </beans>

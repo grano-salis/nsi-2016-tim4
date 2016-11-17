@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -54,18 +55,30 @@ public class TemplateDAO extends BaseDAO implements ICrud<Template> {
 	@Override
 	public Template getById(Integer id) {
 		
-		String query = "SELECT a.id as template_id, a.name as template_name, "
-				+ "b.id as template_definition_id, b.version as version, b.active as active, b.template_file as template_file, b.template_type_id as template_type_id "
-				+ "c.name as template_type_name "
-				+ "FROM TEMPLATE a, TEMPLATEDEFINITION b, TEMPLATETYPE c "
-				+ "WHERE a.id = b.template_id AND b.template_type_id = c.id AND a.id = ?";
-		Template template = this.jdbcTemplate.queryForObject(query, new Object[] {id}, new TemplateMapper());
+		try {
+			String query = "SELECT a.id as template_id, a.name as template_name, "
+					+ "b.id as template_definition_id, b.version as version, b.active as active, b.template_file as template_file, b.template_type_id as template_type_id, "
+					+ "c.name as template_type_name "
+					+ "FROM TEMPLATE a, TEMPLATEDEFINITION b, TEMPLATETYPE c "
+					+ "WHERE a.id = b.template_id AND b.template_type_id = c.id AND a.id = ?";
+			Template template = this.jdbcTemplate.queryForObject(query, new Object[] {id}, new TemplateMapper());
 
-		TemplateDefinition def = template.getTemplateDefinition();
-		def.setPlaceholders(this.placeholderDAO.getAllForTemplate(template.getTemplateDefinition().getId()));
-		template.setTemplateDefinition(def);
-		
-		return template;
+			TemplateDefinition def = template.getTemplateDefinition();
+			if (def != null) {
+				List<Placeholder> placeholders = this.placeholderDAO.getAllForTemplate(template.getTemplateDefinition().getId());
+				if (placeholders != null) {
+					def.setPlaceholders(this.placeholderDAO.getAllForTemplate(template.getTemplateDefinition().getId()));
+				}
+				template.setTemplateDefinition(def);
+			}
+			return template;
+		} catch (EmptyResultDataAccessException e) { 
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

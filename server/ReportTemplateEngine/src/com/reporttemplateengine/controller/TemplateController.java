@@ -57,7 +57,7 @@ public class TemplateController {
 		try {
 			Template templateType = this.dao.getById(id);
 			if (templateType == null) {
-				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_TYPE_NOT_FOUND);
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
 			}
 			return new ApiResponse(templateType).send(HttpStatus.OK);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class TemplateController {
 		
 		Template type = this.dao.getById(templateType.getId());
 		if (type == null) {
-			return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_TYPE_NOT_FOUND);
+			return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
 		}
 		
 		try {
@@ -122,7 +122,7 @@ public class TemplateController {
 		try {
 			Template templateType = this.dao.getById(id);
 			if (templateType == null) {
-				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_TYPE_NOT_FOUND);
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
 			}
 			this.dao.delete(id);
 			return new ApiResponse(templateType).send(HttpStatus.OK);

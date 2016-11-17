@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\dao\BaseDAO.java
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\helpers\ApiResponse.java
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\helpers\Constants.java
@@ -19,17 +18,3 @@ C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\model
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\dao\TemplateDAO.java
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\models\mappers\PlaceholderMapper.java
 C:\Users\mts\eeworkspace\ReportTemplateEngine\src\com\reporttemplateengine\dao\TemplateTypeDAO.java
-=======
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\controller\ReportEngineController.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\controller\TemplateController.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\dao\TemplateDAO.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\dao\ICrud.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplate\engine\services\JOpenDocumentService.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\helpers\ApiResponse.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\helpers\Constants.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\models\TemplateType.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\controller\TemplateTypeController.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\models\Template.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\dao\TemplateTypeDAO.java
-C:\Users\Haris\Desktop\nsi-2016-tim4\server\ReportTemplateEngine\src\com\reporttemplateengine\helpers\HttpStatusSerializer.java
->>>>>>> 3261a047ac30b3081d0d238185f78de532f82c2d
