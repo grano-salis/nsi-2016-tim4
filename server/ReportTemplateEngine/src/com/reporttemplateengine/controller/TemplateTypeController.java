@@ -20,6 +20,7 @@ import com.reporttemplateengine.dao.ICrud;
 import com.reporttemplateengine.helpers.ApiResponse;
 import com.reporttemplateengine.helpers.Constants;
 import com.reporttemplateengine.models.TemplateType;
+import com.sun.media.jfxmedia.logging.Logger;
 
 @RestController
 public class TemplateTypeController {
@@ -37,6 +38,7 @@ public class TemplateTypeController {
 			}
 			return new ApiResponse(templateTypes).send(HttpStatus.OK);
 		} catch (Exception e) {
+			Logger.logMsg(Logger.ERROR, e.getMessage());
 			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		}
 	}
@@ -51,6 +53,8 @@ public class TemplateTypeController {
 			}
 			return new ApiResponse(templateType).send(HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		}
 	}
@@ -66,6 +70,8 @@ public class TemplateTypeController {
 			TemplateType type = this.dao.insert(templateType);
 			return new ApiResponse(type).send(HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		}
 	}
@@ -73,7 +79,7 @@ public class TemplateTypeController {
 	@RequestMapping(value = "/api/services/data/template_type", method = RequestMethod.PUT)
 	public ResponseEntity<ApiResponse> update(@Valid @RequestBody TemplateType templateType, Errors errors) {
 
-		if (errors.hasErrors() || templateType.getId().equals(null)) {
+		if (errors.hasErrors() || templateType.getId() == null) {
 			return new ApiResponse().send(HttpStatus.BAD_REQUEST);
 		}
 		

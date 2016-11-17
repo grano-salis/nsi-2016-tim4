@@ -1,108 +1,126 @@
 package com.reporttemplateengine.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
+import org.springframework.jdbc.support.lob.LobCreator;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
+import com.reporttemplateengine.helpers.AbstractLobPreparedStatementCreator;
+import com.reporttemplateengine.models.Placeholder;
 import com.reporttemplateengine.models.Template;
+import com.reporttemplateengine.models.TemplateDefinition;
+import com.reporttemplateengine.models.mappers.TemplateMapper;
 
-
-public class TemplateDAO implements ICrud<Template> {
-
-	private SessionFactory sessionFactory;
+public class TemplateDAO extends BaseDAO implements ICrud<Template> {
 	
-	public TemplateDAO(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	private PlaceholderDAO placeholderDAO;
+
+	public void setPlaceholderDAO(PlaceholderDAO placeholderDAO) {
+		this.placeholderDAO = placeholderDAO;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	@Transactional
 	public List<Template> getAll() {
+		
+		String query = "SELECT a.id as template_id, a.name as template_name, "
+							+ "b.id as template_definition_id, b.version as version, b.active as active, b.template_file as template_file, b.template_type_id as template_type_id, "
+							+ "c.name as template_type_name "
+							+ "FROM TEMPLATE a, TEMPLATEDEFINITION b, TEMPLATETYPE c "
+							+ "WHERE a.id = b.template_id AND b.template_type_id = c.id";
+		List<Template> templates = this.jdbcTemplate.query(query, new TemplateMapper());
+		
+		for (Template template : templates) {
 
-		return (List<Template>) sessionFactory.getCurrentSession()
-											  .createCriteria(Template.class)
-											  .list();
+			TemplateDefinition def = template.getTemplateDefinition();
+			if (def != null) {
+				List<Placeholder> placeholders = this.placeholderDAO
+													 .getAllForTemplate(template.getTemplateDefinition().getId());
+				if (placeholders != null) {
+					def.setPlaceholders(placeholders);
+				}
+				template.setTemplateDefinition(def);
+			}
+		}
+		return templates;
 	}
 
 	@Override
-	@Transactional
 	public Template getById(Integer id) {
 		
-		return (Template) sessionFactory.getCurrentSession()
-										.get(Template.class, id);
+		String query = "SELECT a.id as template_id, a.name as template_name, "
+				+ "b.id as template_definition_id, b.version as version, b.active as active, b.template_file as template_file, b.template_type_id as template_type_id "
+				+ "c.name as template_type_name "
+				+ "FROM TEMPLATE a, TEMPLATEDEFINITION b, TEMPLATETYPE c "
+				+ "WHERE a.id = b.template_id AND b.template_type_id = c.id AND a.id = ?";
+		Template template = this.jdbcTemplate.queryForObject(query, new Object[] {id}, new TemplateMapper());
+
+		TemplateDefinition def = template.getTemplateDefinition();
+		def.setPlaceholders(this.placeholderDAO.getAllForTemplate(template.getTemplateDefinition().getId()));
+		template.setTemplateDefinition(def);
+		
+		return template;
 	}
 
 	@Override
-	@Transactional
-	public Template insert(Template entity) throws RuntimeException {
+	public Template insert(Template entity) {
+		
+		KeyHolder templateKeyHolder = new GeneratedKeyHolder();
+	      this.jdbcTemplate.update(new PreparedStatementCreator() {
 
-		Transaction tx = null;
-		Session session = sessionFactory.openSession();
-		try {
+	    	  @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement ps =
+                    connection.prepareStatement("INSERT INTO TEMPLATE(name) VALUES(?)", new String[] {"ID"});
+                ps.setString(1, entity.getName());
+                return ps;
+            }
+        }, templateKeyHolder);
+        entity.setId(templateKeyHolder.getKey().intValue());
+      System.out.println(entity.getId());
+      String definitionSql = "INSERT INTO TEMPLATEDEFINITION(template_id, template_type_id, template_file) VALUES(?, ?, ?)";
 
-		  tx = session.beginTransaction();
+      KeyHolder definitionKeyHolder = new GeneratedKeyHolder();
 
-		  Integer id = (Integer) session.save(entity);
+      this.jdbcTemplate.update(new AbstractLobPreparedStatementCreator(new DefaultLobHandler(), definitionSql, "ID") {
+        @Override
+        protected void setValues(PreparedStatement ps, LobCreator lobCreator) throws SQLException, DataAccessException {
+        	try {
 
-		  tx.commit();
-		  
-		  entity.setId(id);
-		  return entity;
-		} catch (RuntimeException e) {
-		  tx.rollback();
-		  throw e;
-		}
+        		lobCreator.setBlobAsBytes(ps, 3, entity.getTemplateDefinition().getTemplateFile());
+                ps.setInt(1, entity.getId());
+                ps.setInt(2, entity.getTemplateDefinition().getTemplateType().getId());
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        	}
+        }
+      }, definitionKeyHolder);
+      entity.getTemplateDefinition().setId(definitionKeyHolder.getKey().intValue());
+      /* Insert into placeholders table */
+      for (Placeholder placeholder : entity.getTemplateDefinition().getPlaceholders()) {
+    	  placeholder.setTemplateDefinitionId(entity.getTemplateDefinition().getId());
+    	  Placeholder inserted = this.placeholderDAO.insert(placeholder);
+    	  placeholder = inserted;
+      }
+      return entity;
 	}
 
 	@Override
-	@Transactional
 	public Template update(Template entity) {
-		
-		Transaction tx = null;
-		Session session = sessionFactory.openSession();
-		try {
-
-		  tx = session.beginTransaction();
-		  
-		  session.update(entity);
-
-		  tx.commit();
-
-		  return entity;
-		} catch (RuntimeException e) {
-		  tx.rollback();
-		  throw e;
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	@Transactional
 	public Integer delete(Integer id) {
-		
-		
-		Template dummy = new Template();
-		dummy.setId(id);
-		
-		Transaction tx = null;
-		Session session = sessionFactory.openSession();
-		try {
-
-		  tx = session.beginTransaction();
-
-		  session.delete(dummy);
-		  tx.commit();
-
-		  return id;
-		} catch (RuntimeException e) {
-		  tx.rollback();
-		  throw e;
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	
 }

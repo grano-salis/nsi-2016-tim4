@@ -10,5 +10,6 @@
     <property name="hibernate.default_schema">SYSTEM</property>
     <mapping resource="com/reporttemplateengine/models/TemplateType.hbm.xml"/>
     <mapping resource="com/reporttemplateengine/models/Template.hbm.xml"/>
+    <mapping resource="com/reporttemplateengine/models/TemplateDefinition.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

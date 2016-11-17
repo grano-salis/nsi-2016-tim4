@@ -33,29 +33,17 @@
 	    <property name="username" value="SYSTEM"/>
 	    <property name="password" value="Oraclensi1"/>
 	</bean>
-	
-	<bean id="sessionFactory"
-	    class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-	    <property name="dataSource" ref="dataSource" />
-	    <property name="configLocation" value="classpath:hibernate.cfg.xml" />
-	</bean>
 
-	<tx:annotation-driven />
-	<bean id="transactionManager"
-	    class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-	    <property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	
 	<!-- Application beans -->
 	<bean id="TemplateTypeDAO" class="com.reporttemplateengine.dao.TemplateTypeDAO">
-	    <constructor-arg>
-	        <ref bean="sessionFactory" />
-	    </constructor-arg>
+	    <property name="dataSource" ref="dataSource"/>
+	</bean>
+	<bean id="PlaceholderDAO" class="com.reporttemplateengine.dao.PlaceholderDAO">
+	    <property name="dataSource" ref="dataSource"/>
 	</bean>
 	<bean id="TemplateDAO" class="com.reporttemplateengine.dao.TemplateDAO">
-	    <constructor-arg>
-	        <ref bean="sessionFactory" />
-	    </constructor-arg>
+	    <property name="dataSource" ref="dataSource"/>
+	    <property name="placeholderDAO" ref="PlaceholderDAO"/>
 	</bean>
 
 	<mvc:annotation-driven />
