@@ -45,6 +45,9 @@
 	    <property name="dataSource" ref="dataSource"/>
 	    <property name="placeholderDAO" ref="PlaceholderDAO"/>
 	</bean>
+	<bean id="ValidationRuleDAO" class="com.reporttemplateengine.dao.ValidationRuleDAO">
+	    <property name="dataSource" ref="dataSource"/>
+	</bean>
 
 	<mvc:annotation-driven />
 	<mvc:resources location="/assets/css/**" mapping="css/**"/>
