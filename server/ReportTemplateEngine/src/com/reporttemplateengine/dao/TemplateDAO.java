@@ -17,6 +17,7 @@ import com.reporttemplateengine.helpers.AbstractLobPreparedStatementCreator;
 import com.reporttemplateengine.models.Placeholder;
 import com.reporttemplateengine.models.Template;
 import com.reporttemplateengine.models.TemplateDefinition;
+import com.reporttemplateengine.models.mappers.TemplateDefinitionIdMapper;
 import com.reporttemplateengine.models.mappers.TemplateMapper;
 
 public class TemplateDAO extends BaseDAO implements ICrud<Template> {
@@ -133,7 +134,12 @@ public class TemplateDAO extends BaseDAO implements ICrud<Template> {
 	@Override
 	public Integer delete(Integer id) {
 		// TODO Auto-generated method stub
-		return null;
+		String definitionSql = "SELECT id FROM TEMPLATEDEFINITION WHERE template_id = ?";
+		TemplateDefinition def = this.jdbcTemplate.queryForObject(definitionSql, new Object[] {id} ,new TemplateDefinitionIdMapper());
+		this.jdbcTemplate.update("DELETE FROM PLACEHOLDER WHERE template_definition_id = ?", def.getId());
+		this.jdbcTemplate.update("DELETE FROM TEMPLATEDEFINITION WHERE template_id = ?", id);
+		this.jdbcTemplate.update("DELETE FROM TEMPLATE WHERE id = ?", id);
+		return id;
 	}
 
 }
