@@ -59,6 +59,7 @@
 	</bean>
 
 	<mvc:annotation-driven />
-	<mvc:resources location="/assets/css/**" mapping="css/**"/>
-	<mvc:resources location="/assets/js/**" mapping="js/**"/>
+	<mvc:resources location="/assets/css/" mapping="/css/**"/>
+	<mvc:resources location="/assets/js/" mapping="/js/**"/>
+	<mvc:resources location="/assets/img/" mapping="/img/**"/>
 </beans>

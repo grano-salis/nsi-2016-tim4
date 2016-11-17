@@ -29,7 +29,6 @@ import sun.rmi.runtime.Log;
 
 @Controller
 public class ReportEngineController {
-
 	
 	@RequestMapping("/welcome")
 	public ModelAndView helloWorld() {
