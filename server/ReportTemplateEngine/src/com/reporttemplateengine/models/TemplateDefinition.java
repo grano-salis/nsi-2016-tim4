@@ -13,14 +13,14 @@ public class TemplateDefinition {
 
 	private int id;
 	private TemplateType templateType;
-	private byte[] templateFile;
+	private String templateFile;
 	private int version;
 	private int active;
 	private List<Placeholder> placeholders;
 	
 	public TemplateDefinition() {}
 
-	public TemplateDefinition(int id, TemplateType templateType, byte[] templateFile, int version,
+	public TemplateDefinition(int id, TemplateType templateType, String templateFile, int version,
 			int active) {
 		super();
 		this.id = id;
@@ -30,7 +30,7 @@ public class TemplateDefinition {
 		this.active = active;
 	}
 
-	public TemplateDefinition(int id, TemplateType templateType, byte[] templateFile, int version,
+	public TemplateDefinition(int id, TemplateType templateType, String templateFile, int version,
 			int active, List<Placeholder> placeholders) {
 		super();
 		this.id = id;
@@ -57,11 +57,11 @@ public class TemplateDefinition {
 		this.templateType = templateType;
 	}
 
-	public byte[] getTemplateFile() {
+	public String getTemplateFile() {
 		return templateFile;
 	}
 
-	public void setTemplateFile(byte[] templateFile) {
+	public void setTemplateFile(String templateFile) {
 		this.templateFile = templateFile;
 	}
 

@@ -84,13 +84,13 @@ public class ReportEngineController {
 	@RequestMapping(value = "/generateReport", method = RequestMethod.POST)
 	public ModelAndView generateReport(@RequestParam MultiValueMap<String, Object> parameters) {
 		
-		String filePath = parameters.get("filePath").get(0).toString();
+	/*	String filePath = parameters.get("filePath").get(0).toString();
 		parameters.remove("filePath");
 		if (JOpenDocumentService.fillPlaceholders(filePath, parameters)) {
 			return new ModelAndView("index", "generated", "Successfully generated: " + filePath);
 		} else {
 			return new ModelAndView("index", "generated", "Generating report failed");
-		}
-		
+		}*/
+		return null;
 	}
 }

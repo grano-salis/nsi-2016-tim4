@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.odftoolkit.odfdom.doc.OdfDocument;
 import org.odftoolkit.odfdom.converter.pdf.PdfConverter;
@@ -18,6 +19,7 @@ public class JOpenDocumentService {
 
 		LinkedList<String> fields = new LinkedList<>();
 
+		
 		// Parse placeholders from the file
 		OdfDocument doc;
 		try {
@@ -26,8 +28,9 @@ public class JOpenDocumentService {
 			for (int i = 0; i < nodes.getLength(); i++) {
 
 			  TextUserFieldDeclElement element = (TextUserFieldDeclElement) nodes.item(i);
-			  fields.add(element.getTextNameAttribute());
-			  System.out.println(element.getTextNameAttribute());
+			  if (element.getOfficeStringValueAttribute() != null) {
+				  fields.add(element.getTextNameAttribute());  
+			  }
 			}
 		} catch (Exception e) {
 
@@ -36,21 +39,28 @@ public class JOpenDocumentService {
 		return fields;
 	}
 	
-	public static boolean fillPlaceholders(String filePath, MultiValueMap<String, Object> placeholders) {
+	@SuppressWarnings("unchecked")
+	public static boolean fillPlaceholders(String filePath, String outFilePath, Map<String, Object> placeholders) {
 		
 		try {
 
 			File file = new File(filePath);
 			OdfDocument document = OdfDocument.loadDocument(file);
 			NodeList nodes = document.getContentDom().getElementsByTagName("text:user-field-decl");
+			Map<String, Object> placeholderMap = (Map<String, Object>) placeholders.get("placeholders");
+			for(String key : placeholderMap.keySet()) {
+				key = key.toLowerCase();
+			}
 			for (int i = 0; i < nodes.getLength(); i++) {
 
 			  TextUserFieldDeclElement element = (TextUserFieldDeclElement) nodes.item(i);
-			  element.setOfficeStringValueAttribute(placeholders.get(element.getTextNameAttribute()).get(0).toString());
+			  if (placeholderMap.get(element.getTextNameAttribute().toLowerCase()) != null) {
+				  element.setOfficeStringValueAttribute(placeholderMap.get(element.getTextNameAttribute().toLowerCase()).toString());  
+			  }
 			}
 		//	PdfConverter converter = new PdfConverter();
 		//	OutputStream out = new FileOutputStream(filePath);
-			document.save(filePath);
+			document.save(outFilePath);
 		//	converter.convert(document.sa, out, PdfOptions.getDefault());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

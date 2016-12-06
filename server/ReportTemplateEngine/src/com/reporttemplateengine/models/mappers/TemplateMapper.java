@@ -20,7 +20,7 @@ public class TemplateMapper implements RowMapper<Template> {
 	  TemplateDefinition def = new TemplateDefinition();
 
 	  def.setId(rs.getInt("template_definition_id"));
-	  def.setTemplateFile(rs.getBlob("template_file").getBytes(1, (int) rs.getBlob("template_file").length()));
+	  def.setTemplateFile(rs.getString("template_file"));
 	  def.setActive(rs.getInt("active"));
 	  def.setVersion(rs.getInt("version"));
 	  

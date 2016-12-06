@@ -101,20 +101,20 @@ public class TemplateDAO extends BaseDAO implements ICrud<Template> {
       String definitionSql = "INSERT INTO TEMPLATEDEFINITION(template_id, template_type_id, template_file) VALUES(?, ?, ?)";
 
       KeyHolder definitionKeyHolder = new GeneratedKeyHolder();
+      
+      this.jdbcTemplate.update(new PreparedStatementCreator() {
 
-      this.jdbcTemplate.update(new AbstractLobPreparedStatementCreator(new DefaultLobHandler(), definitionSql, "ID") {
-        @Override
-        protected void setValues(PreparedStatement ps, LobCreator lobCreator) throws SQLException, DataAccessException {
-        	try {
-
-        		lobCreator.setBlobAsBytes(ps, 3, entity.getTemplateDefinition().getTemplateFile());
-                ps.setInt(1, entity.getId());
-                ps.setInt(2, entity.getTemplateDefinition().getTemplateType().getId());
-        	} catch (Exception e) {
-        		e.printStackTrace();
-        	}
-        }
+    	  @Override
+          public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+              PreparedStatement ps =
+                  connection.prepareStatement(definitionSql, new String[] {"ID"});
+              ps.setInt(1, entity.getId());
+              ps.setInt(2, entity.getTemplateDefinition().getTemplateType().getId());
+              ps.setString(3, entity.getTemplateDefinition().getTemplateFile());
+              return ps;
+          }
       }, definitionKeyHolder);
+
       entity.getTemplateDefinition().setId(definitionKeyHolder.getKey().intValue());
       /* Insert into placeholders table */
       for (Placeholder placeholder : entity.getTemplateDefinition().getPlaceholders()) {
