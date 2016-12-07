@@ -93,6 +93,7 @@ public class TemplateController {
 			try {
 
 				 	String fileName = file.getOriginalFilename();
+				 	(new File("files")).mkdirs();
 				    File serverFile = new File("files" + File.separator + fileName);
 
 				    OutputStream outputStream = null;
@@ -150,7 +151,17 @@ public class TemplateController {
 		}
 	}
 	
-	
+	/**
+	 * Takes id of template and returns generated .pdf, .odt file is also
+	 * generated and accessible on path for .pdf
+	 * @param id
+	 * @param placeholders
+	 * @param request
+	 * @param response
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/api/services/data/template/{id}/fill", method = RequestMethod.POST)
 	public void fillTemplate(@PathVariable int id,
 							 @RequestBody Map<String, Object> placeholders,
@@ -160,13 +171,15 @@ public class TemplateController {
 			try {
 				Template template = this.dao.getById(id);
 				InputStream is = new FileInputStream(template.getTemplateDefinition().getTemplateFile());
+				(new File("files/conversions")).mkdirs();
 				String outFilePath = "files" + File.separator + "conversions" + File.separator + java.util.UUID.randomUUID() + ".odt";
 				if (JOpenDocumentService.fillPlaceholders(template.getTemplateDefinition().getTemplateFile(),
 													      outFilePath,
-														  placeholders)) {
+														  placeholders)) {  
 					// copy it to response's OutputStream
-					response.setContentType("application/vnd.oasis.opendocument.text");
-			        org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+					//response.setContentType("application/vnd.oasis.opendocument.text");
+					response.setContentType("application/pdf");
+					org.apache.commons.io.IOUtils.copy((new FileInputStream(outFilePath.replace(".odt", ".pdf"))), response.getOutputStream());
 			        response.flushBuffer();
 			        // delete the created file
 			      //  (new File(outFilePath)).delete();

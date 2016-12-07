@@ -1,17 +1,27 @@
 package com.reporttemplate.engine.services;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.odftoolkit.odfdom.doc.OdfDocument;
+import org.odftoolkit.odfdom.converter.core.ODFConverterException;
 import org.odftoolkit.odfdom.converter.pdf.PdfConverter;
 import org.odftoolkit.odfdom.converter.pdf.PdfOptions;
+import org.odftoolkit.odfdom.dom.element.text.TextLineBreakElement;
+import org.odftoolkit.odfdom.dom.element.text.TextSpanElement;
 import org.odftoolkit.odfdom.dom.element.text.TextUserFieldDeclElement;
-import org.springframework.util.MultiValueMap;
+import org.odftoolkit.odfdom.dom.element.text.TextUserFieldGetElement;
+import org.odftoolkit.odfdom.pkg.OdfFileDom;
 import org.w3c.dom.NodeList;
+
+import com.reporttemplate.engine.services.utils.OdfUtils;
+import com.reporttemplate.engine.services.utils.TextSpanFragment;
 
 public class JOpenDocumentService {
 
@@ -44,24 +54,24 @@ public class JOpenDocumentService {
 		
 		try {
 
+			Map<String, Object> placeholderMap = (Map<String, Object>) placeholders.get("placeholders");
 			File file = new File(filePath);
 			OdfDocument document = OdfDocument.loadDocument(file);
-			NodeList nodes = document.getContentDom().getElementsByTagName("text:user-field-decl");
-			Map<String, Object> placeholderMap = (Map<String, Object>) placeholders.get("placeholders");
-			for(String key : placeholderMap.keySet()) {
-				key = key.toLowerCase();
-			}
-			for (int i = 0; i < nodes.getLength(); i++) {
+			
+			List<TextUserFieldGetElement> list = OdfUtils.getUserFieldGetElements(document.getContentDom());
+			
+			for (int i = 0; i < list.size(); i++) {
 
-			  TextUserFieldDeclElement element = (TextUserFieldDeclElement) nodes.item(i);
-			  if (placeholderMap.get(element.getTextNameAttribute().toLowerCase()) != null) {
-				  element.setOfficeStringValueAttribute(placeholderMap.get(element.getTextNameAttribute().toLowerCase()).toString());  
-			  }
+				TextUserFieldGetElement element = (TextUserFieldGetElement) list.get(i);
+				if (placeholderMap.get(element.getTextNameAttribute()) != null) { 
+					replaceField(document.getContentDom(), element, placeholderMap.get(element.getTextNameAttribute()).toString());
+				} else {
+					replaceField(document.getContentDom(), element, "");
+				}
 			}
-		//	PdfConverter converter = new PdfConverter();
-		//	OutputStream out = new FileOutputStream(filePath);
+
 			document.save(outFilePath);
-		//	converter.convert(document.sa, out, PdfOptions.getDefault());
+			convertToPdf(document, outFilePath);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,5 +79,46 @@ public class JOpenDocumentService {
 		}
 		
 		return true;
+	}
+	
+	private static void convertToPdf(OdfDocument document, String outFilePath) {
+
+	    OutputStream out = null;
+		try {
+			out = new FileOutputStream(outFilePath.replace(".odt", ".pdf"));
+			PdfOptions options = PdfOptions.create().fontEncoding("windows-1250");
+		    PdfConverter.getInstance().convert(document, out, options);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ODFConverterException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private static void replaceField(OdfFileDom dom, TextUserFieldGetElement field, String value){
+		TextSpanElement newTextSpan = new TextSpanElement(dom);
+		String txt = value.trim();		
+		String[] texts = txt.split("\\r\\n");		
+		for (int i = 0; i < texts.length; i++) {
+			String token = texts[i];			
+			TextSpanFragment fragment = new TextSpanFragment(token);			
+			fragment.appendTo(newTextSpan);				
+			if (i != texts.length - 1) {
+				TextLineBreakElement nl = new TextLineBreakElement(dom);
+				newTextSpan.appendChild(nl);				
+			}
+		}
+		OdfUtils.replace(newTextSpan, field);
 	}
 }
