@@ -51,7 +51,7 @@ public class PlaceholderDAO extends BaseDAO implements ICrud<Placeholder> {
 	@Override
 	public Placeholder insert(Placeholder entity) {
 
-		  final String sql = "INSERT INTO PLACEHOLDER(name, description, type, template_definition_id) VALUES(?, ?, ?, ?)";
+		  final String sql = "INSERT INTO PLACEHOLDER(name, description, datatype_id, template_definition_id) VALUES(?, ?, ?, ?)";
 	      KeyHolder keyHolder = new GeneratedKeyHolder();
 	      this.jdbcTemplate.update(new PreparedStatementCreator() {
 

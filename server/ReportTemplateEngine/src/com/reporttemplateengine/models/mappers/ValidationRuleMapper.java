@@ -12,7 +12,7 @@ public class ValidationRuleMapper implements RowMapper<ValidationRule> {
 	  ValidationRule type = new ValidationRule();
 	  type.setId(rs.getInt("id"));
 	  type.setName(rs.getString("name"));
-	  type.setRegex(rs.getString("value"));
+	  type.setValue(rs.getString("value"));
       return type;
    }
 }

@@ -49,7 +49,7 @@ public class ValidationRuleDAO extends BaseDAO implements ICrud<ValidationRule> 
                   PreparedStatement ps =
                       connection.prepareStatement("INSERT INTO VALIDATIONRULE(name, value) VALUES(?, ?)", new String[] {"ID"});
                   ps.setString(1, entity.getName());
-                  ps.setString(2,  entity.getRegex());
+                  ps.setString(2,  entity.getValue());
                   return ps;
               }
           },
@@ -62,7 +62,7 @@ public class ValidationRuleDAO extends BaseDAO implements ICrud<ValidationRule> 
 	@Override
 	public ValidationRule update(ValidationRule entity) {
 
-		this.jdbcTemplate.update("UPDATE VALIDATIONRULE SET name = ?, value = ? WHERE id = ?", entity.getName(), entity.getRegex(), entity.getId());
+		this.jdbcTemplate.update("UPDATE VALIDATIONRULE SET name = ?, value = ? WHERE id = ?", entity.getName(), entity.getValue(), entity.getId());
       	return entity;
 	}
 

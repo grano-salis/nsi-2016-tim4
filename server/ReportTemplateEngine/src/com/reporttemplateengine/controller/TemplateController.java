@@ -77,6 +77,20 @@ public class TemplateController {
 		}
 	}
 	
+	@RequestMapping(value = "/api/services/data/template/{id}/placeholders", method = RequestMethod.GET)
+	public ResponseEntity<ApiResponse> getAllPlaceholders(@PathVariable Integer id) {
+
+		try {
+			Template templateType = this.dao.getById(id);
+			if (templateType == null) {
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
+			}
+			return new ApiResponse(templateType.getTemplateDefinition().getPlaceholders()).send(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+		}
+	}
+	
 	@RequestMapping(value = "/api/services/data/template", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> insert(@RequestParam("template") String templateParam,
 											  @RequestParam("file") MultipartFile file,
@@ -94,7 +108,7 @@ public class TemplateController {
 
 				 	String fileName = file.getOriginalFilename();
 				 	(new File("files")).mkdirs();
-				    File serverFile = new File("files" + File.separator + fileName);
+				    File serverFile = new File("files" + File.separator + java.util.UUID.randomUUID() + ".odt");
 
 				    OutputStream outputStream = null;
 				    InputStream inputStream = null;

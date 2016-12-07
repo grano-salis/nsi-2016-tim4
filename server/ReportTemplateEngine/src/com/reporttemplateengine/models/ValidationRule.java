@@ -7,7 +7,7 @@ public class ValidationRule {
 	@NotNull
 	private int id;
 	private String name;
-	private String regex;
+	private String value;
 	
 	public ValidationRule() {
 		
@@ -17,7 +17,7 @@ public class ValidationRule {
 		super();
 		this.id = id;
 		this.name = name;
-		this.regex = regex;
+		this.value = regex;
 	}
 
 	public int getId() {
@@ -36,11 +36,11 @@ public class ValidationRule {
 		this.name = name;
 	}
 
-	public String getRegex() {
-		return regex;
+	public String getValue() {
+		return value;
 	}
 
-	public void setRegex(String regex) {
-		this.regex = regex;
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

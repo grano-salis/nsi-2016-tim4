@@ -29,9 +29,9 @@
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 	    <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-	    <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"/>
-	    <property name="username" value="SYSTEM"/>
-	    <property name="password" value="Oraclensi1"/>
+	    <property name="url" value="jdbc:oracle:thin:@80.65.65.66:1521:etflab"/>
+	    <property name="username" value="NSI04"/>
+	    <property name="password" value="mTv04!"/>
 	</bean>
 
 	<!-- Application beans -->
