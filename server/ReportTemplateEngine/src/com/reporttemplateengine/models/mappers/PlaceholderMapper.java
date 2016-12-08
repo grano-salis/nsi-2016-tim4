@@ -13,7 +13,7 @@ public class PlaceholderMapper implements RowMapper<Placeholder> {
 	  placeholder.setId(rs.getInt("id"));
 	  placeholder.setName(rs.getString("name"));
 	  placeholder.setDescription(rs.getString("description"));
-	  placeholder.setType(rs.getString("type"));
+	  placeholder.setType(rs.getString("datatype_id"));
 	  placeholder.setTemplateDefinitionId(rs.getInt("template_definition_id"));
       return placeholder;
    }

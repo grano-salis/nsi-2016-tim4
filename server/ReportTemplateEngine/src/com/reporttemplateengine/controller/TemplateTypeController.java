@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import com.reporttemplateengine.models.TemplateType;
 import com.sun.media.jfxmedia.logging.Logger;
 
 @RestController
+@CrossOrigin
 public class TemplateTypeController {
 
 	@Autowired
@@ -106,6 +108,7 @@ public class TemplateTypeController {
 			this.dao.delete(id);
 			return new ApiResponse(templateType).send(HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
 		}
 	}

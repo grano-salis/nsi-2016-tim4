@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +45,7 @@ import com.reporttemplateengine.models.Template;
 import com.reporttemplateengine.models.TemplateType;
 
 @RestController
+@CrossOrigin
 public class TemplateController {
 	
 	@Autowired
@@ -177,7 +180,7 @@ public class TemplateController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/api/services/data/template/{id}/fill", method = RequestMethod.POST)
-	public void fillTemplate(@PathVariable int id,
+	public byte[] fillTemplate(@PathVariable int id,
 							 @RequestBody Map<String, Object> placeholders,
 							 HttpServletRequest request,
 							 HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException {
@@ -193,8 +196,9 @@ public class TemplateController {
 					// copy it to response's OutputStream
 					//response.setContentType("application/vnd.oasis.opendocument.text");
 					response.setContentType("application/pdf");
-					org.apache.commons.io.IOUtils.copy((new FileInputStream(outFilePath.replace(".odt", ".pdf"))), response.getOutputStream());
-			        response.flushBuffer();
+					//org.apache.commons.io.IOUtils.copy((new FileInputStream(outFilePath.replace(".odt", ".pdf"))), response.getOutputStream());
+			        //response.flushBuffer();
+			        return IOUtils.toByteArray((new FileInputStream(outFilePath.replace(".odt", ".pdf"))));
 			        // delete the created file
 			      //  (new File(outFilePath)).delete();
 				}
@@ -203,6 +207,7 @@ public class TemplateController {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
 			}
+			return null;
 	}
 	
 	
