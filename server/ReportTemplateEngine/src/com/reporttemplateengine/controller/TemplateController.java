@@ -44,7 +44,7 @@ import com.reporttemplateengine.models.TemplateType;
 
 @RestController
 public class TemplateController {
-
+	
 	@Autowired
     private ICrud<Template> dao;
 
