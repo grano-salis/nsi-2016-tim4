@@ -128,5 +128,6 @@
 		<script src="/ReportTemplateEngine/js/responsive.bootstrap.js"></script>
 		<script src="/ReportTemplateEngine/js/custom.min.js"></script>
 		<script src="/ReportTemplateEngine/js/singlePaging.js"></script>
+		<script src="/ReportTemplateEngine/js/templates.js"></script>
 	</body>
 </html>

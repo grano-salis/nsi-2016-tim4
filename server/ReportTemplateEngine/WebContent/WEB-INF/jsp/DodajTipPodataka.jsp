@@ -38,12 +38,8 @@
                       <div class="form-group" style="margin-top:3%;">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Predefinisani tipovi podataka </label>
                         <div>
-                          <select class="form-control" style="margin-left:26%; width:30%;">
-                            <option>Odaberi</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
+                          <select class="form-control template-types-dropdown" style="margin-left:26%; width:30%;">
+                           
                           </select>
                         </div>
 
