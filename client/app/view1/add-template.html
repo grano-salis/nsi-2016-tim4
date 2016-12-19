@@ -1,0 +1,27 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment">
+		<form name="addTemplateForm" class="ui form" novalidate>
+			<div class="field">
+		      <label>Naziv:</label>
+		      <input type="text" name="templateName" ng-required="true" ng-model="template.name" placeholder="Unesite naziv templatea...">
+		    </div>
+		    <div class="field">
+		    	<label>Tip templatea:</label>
+		    	<select class="ui search dropdown" ng-model="template.templateDefinition.templateType.id" ng-required="true" sui-dropdown>
+				  <option value="{{templateType.id}}" ng-repeat="templateType in templateTypes">{{templateType.name}}</option>
+				</select>
+		    </div>
+		    <div class="field">
+		      <label>Dokument:</label>
+		      <input type="file" name="templateFile" fileread="file" ng-required="false" placeholder="Odaberite dokument...">
+		    </div>
+		    <div class="ui one column center aligned fluid grid">
+		    	<div class="one column">
+		    		<button class="ui teal center aligned button" type="button"
+		    				ng-click="saveTemplate()" ng-disabled="addTemplateForm.$invalid || !file"
+		    				ng-class="{'loading' : loading}">Unesi template</button>
+		    	</div>
+		    </div>
+		</form>
+	</div>
+</div>

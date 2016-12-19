@@ -1,0 +1,54 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment" ng-class="{'loading' : loading}">
+        <table class="ui striped table">
+            <thead>
+                <tr>
+                    <th>Placeholder</th>
+                    <th>Validaciona pravila</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pval in placeholderValidation">
+                    <td>
+                        <div class="ui two column fluid grid">
+                            <div class="six wide column">{{pval.placeholder.name}}</div>
+                            <div class="four wide column">
+                                <button class="ui teal button mini" type="button" ng-click="addEmptyRule(pval.placeholder.id)"
+                                        ng-disabled="pval.validationRules.length === validationRules.length">
+                                        <i class="inverted teal add icon"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="!pval.validationRules.length"></td>
+                    <td>
+                        <div class="ui list" ng-if="currentValidationRules[pval.placeholder.id]">
+                            <div class="item" ng-repeat="valRule in currentValidationRules[pval.placeholder.id].rules">
+                                <p>
+                                    {{ruleDictionary[valRule]}}
+                                </p>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="ui list">
+                            <div class="item" ng-repeat="rule in pval.validationRules track by $index">
+                                <i class="left floated large red remove icon" ng-click="removeRule(pval.placeholder.id, rule, $index)"></i>
+                                <select class="ui left floated search dropdown" ng-model="rule" ng-change="onRuleChange($index, rule, pval)"
+                                        ng-options="validationRule.id as validationRule.name for validationRule in validationRules | exceptValues:'id':currentValidationRules[pval.placeholder.id].rules.concat([rule])" sui-dropdown>
+                                        <option value=""></option>
+                                </select>
+                                <p>{{ruleDictionary[rule]}}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ui one column center aligned fluid grid">
+            <div class="one column">
+                <button class="ui teal center aligned button" type="button" ng-click="addRules()"
+                        ng-class="{'loading' : loading}">Spremi</button>
+            </div>
+        </div>
+	</div>
+</div>

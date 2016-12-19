@@ -1,0 +1,48 @@
+  <style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+
+    #container {
+        height: 100% !important;
+    }
+
+    body > #container > .grid {
+      height: 100%;
+    }
+    .column {
+      max-width: 450px;
+    }
+  </style>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <div class="content">
+        Prijava na sistem
+      </div>
+    </h2>
+    <form name="loginForm" class="ui large form" novalidate>
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="username" ng-model="credentials.loginModel.Username" placeholder="Korisničko ime" required>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" ng-model="credentials.loginModel.Password" placeholder="Password" required>
+          </div>
+        </div>
+        <button type="button" class="ui fluid large teal submit button" ng-disabled="loginForm.$invalid" ng-class="{ 'loading': loading }" ng-click="attemptLogin()">Prijava</button>
+      </div>
+
+      <div class="ui negative message" ng-if="submitted && errorMessage">
+          {{errorMessage}}
+      </div>
+
+    </form>
+  </div>
+</div>

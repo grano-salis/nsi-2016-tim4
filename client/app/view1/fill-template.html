@@ -1,0 +1,25 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment">
+		<form name="fillTemplateForm" class="ui form" novalidate>
+			<div class="field" ng-repeat="placeholder in placeholders">
+		      <label>{{placeholder.name}}:</label>
+		      <input type="text" name="{{'p-' + placeholder.id}}" ng-model-options="{ debounce: 400 }" multiple-pattern regexes="getRegexes(placeholder.id)" ng-model="placeholder.value" ng-if="placeholderValidation" placeholder="Unesite {{placeholder.name}}...">
+			  <div class="ui negative message" ng-if="fillTemplateForm['p-' + placeholder.id].$invalid">
+				  Nije validan unos! Trebaju biti zadovoljeni sljedeći izrazi:
+				  <div class="ui list">
+					  <div class="item" ng-repeat="value in getRegexes(placeholder.id)">
+						  {{value.value}}
+					  </div>
+				  </div>
+			  </div>
+			</div>
+		    <div class="ui one column center aligned fluid grid">
+		    	<div class="one column">
+		    		<button class="ui teal center aligned button" type="button"
+		    				ng-click="fillTemplate()" ng-disabled="fillTemplateForm.$invalid"
+		    				ng-class="{'loading' : loading}">Generiši izvještaj</button>
+		    	</div>
+		    </div>
+		</form>
+	</div>
+</div>

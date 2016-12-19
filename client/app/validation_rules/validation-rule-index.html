@@ -1,0 +1,31 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment" ng-class="{'loading' : loading}">
+		<a class="ui right floated right labeled icon teal mini button row-spacing" href="/#/validation_rule/new">
+		  <i class="right plus icon"></i>
+		  Novo validaciono pravilo
+		</a>
+		<table class="ui very compact striped celled table">
+		  <thead>
+		    <tr>
+			    <th>Naziv validacionog pravila</th>
+			    <th>Vrijednost validacionog pravila</th>
+			    <th>Akcije</th>
+		  	</tr>
+		  </thead>
+		  <tbody>
+		  	<tr ng-repeat="validationRule in validationRules">
+		  		<td><a href="/#/validation_rule/{{validationRule.id}}/detail">{{validationRule.name}}</a></td>
+		  		<td>{{validationRule.value}}</td>
+		  		<td class="center aligned">
+		  			<span data-tooltip="Edit validaciono pravilo">
+		  				<a href="/#/validation_rule/{{validationRule.id}}"><i class="large blue edit icon"></i></a>
+		  			</span>
+		  			<span data-tooltip="Obriši validaciono pravilo">
+		  				<i class="large red trash outline icon" ng-click="deleteValidationRule(validationRule.id)"></i>
+		  			</span>
+		  		</td>
+		  	</tr>
+		  </tbody>
+		</table>
+	</div>
+</div>

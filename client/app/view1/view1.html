@@ -1,0 +1,53 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment" ng-class="{'loading' : loading}">
+		<a class="ui right floated right labeled icon teal mini button row-spacing" href="/#/template/new">
+		  <i class="right plus icon"></i>
+		  Novi template
+		</a>
+		<table class="ui very compact striped celled table">
+		  <thead>
+		    <tr>
+			    <th>Naziv templatea</th>
+			    <th>Tip templatea</th>
+			    <th>Verzija</th>
+			    <th>Aktivan</th>
+			    <th>Akcije</th>
+		  	</tr>
+		  </thead>
+		  <tbody>
+		  	<tr ng-repeat-start="template in templates">
+		  		<td><a download="{{template.name}}" href="{{template.templateDefinition.templateFile}}">{{template.name}}</a></td>
+		  		<td>{{template.templateDefinition.templateType.name}}</td>
+		  		<td>{{template.templateDefinition.version}}</td>
+		  		<td>{{template.templateDefinition.active === 1 ? 'Da' : 'Ne'}}</td>
+		  		<td class="center aligned">
+		  			<span data-tooltip="Enter placeholder values" ng-if="template.templateDefinition.placeholders.length">
+		  				<a href="/#/template/{{template.id}}/fill"><i class="large print teal icon"></i></a>
+		  			</span>
+						<span data-tooltip="Add validation rules" ng-if="template.templateDefinition.placeholders.length">
+		  				<a href="/#/template/{{template.id}}/validation/add"><i class="large warning circle teal icon"></i></a>
+		  			</span>
+						<span data-tooltip="Edit validation rules" ng-if="template.templateDefinition.validationRules.length">
+		  				<a href="/#/template/{{template.id}}/validation/edit"><i class="large write square teal icon"></i></a>
+		  			</span>
+		  			<p ng-if="!template.templateDefinition.placeholders.length">No actions possible</p>
+		  		</td>
+		  	</tr>
+		  	<tr ng-repeat-end>
+		  		<td colspan="5" style="border-bottom: 1px solid black;">
+		  			<div class="ui accordion" ng-if="template.templateDefinition.placeholders.length" sui-accordion>
+					  <div class="title">
+					    <i class="dropdown icon"></i>
+					    Placeholderi templatea
+					  </div>
+					  <div class="content">
+					    <p class="transition hidden" ng-repeat="placeholder in template.templateDefinition.placeholders">{{placeholder.name}}</p>
+					  </div>
+					</div>
+					<p class="center aligned" ng-if="!template.templateDefinition.placeholders.length">No placeholders defined!</p>
+		  		</td>
+		  	</tr>
+		  </tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment" ng-class="{'loading' : loading}">
+        <table class="ui striped table">
+            <thead>
+                <tr>
+                    <th>Placeholder</th>
+                    <th>Validaciona pravila</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pval in placeholderValidation">
+                    <td>{{pval.placeholder.name}}</td>
+                    <td ng-if="!pval.validationRules.length"></td>
+                    <td>
+                        <div class="ui list">
+                            <div class="item" ng-repeat="rule in pval.validationRules track by $index">
+                                <!--<i class="left floated large red remove icon" ng-click="removeRule(pval.placeholder.id, rule, $index)"></i>-->
+                                <select class="ui left floated search dropdown" ng-model="pval.validationRules[$index].ruleId" ng-change="onRuleChange($index, pval.validationRules[$index].ruleId, pval)" sui-dropdown value="pval.validationRules[$index].ruleId">
+                                        <option value="{{validationRule.id}}" ng-repeat="validationRule in validationRules | exceptValues:'id':rule.ruleId">{{ruleDictionary[validationRule.id]}}</option>
+                                </select>
+                                <p>{{ruleDictionary[rule.ruleId]}}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ui one column center aligned fluid grid">
+            <div class="one column">
+                <button class="ui teal center aligned button" type="button" ng-click="addRules()"
+                        ng-class="{'loading' : loading}">Spremi</button>
+            </div>
+        </div>
+	</div>
+</div>

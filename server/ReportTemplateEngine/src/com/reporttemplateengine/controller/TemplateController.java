@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reporttemplate.engine.services.JOpenDocumentService;
 import com.reporttemplateengine.dao.ICrud;
+import com.reporttemplateengine.dao.ValidationRuleDAO;
 import com.reporttemplateengine.helpers.ApiResponse;
 import com.reporttemplateengine.helpers.Constants;
 import com.reporttemplateengine.models.Placeholder;
@@ -47,7 +48,7 @@ import com.reporttemplateengine.models.TemplateType;
 @RestController
 @CrossOrigin
 public class TemplateController {
-	
+
 	@Autowired
     private ICrud<Template> dao;
 
@@ -94,6 +95,58 @@ public class TemplateController {
 		}
 	}
 	
+	@RequestMapping(value = "/api/services/data/template/{id}/placeholders/validationrules", method = RequestMethod.POST)
+	public ResponseEntity<ApiResponse> insertValidationRules(@PathVariable Integer id,
+															 @RequestBody Map<String, Object> placeholderValidation) {
+
+		try {
+			Template templateType = this.dao.getById(id);
+			if (templateType == null) {
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
+			}
+			ValidationRuleDAO validationRuleDAO = new ValidationRuleDAO();
+			return new ApiResponse(validationRuleDAO.insertMultipleForPlaceholders((List<Map<String, Object>>)placeholderValidation.get("placeholderValidation"))).send(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+		}
+	}
+	
+	@RequestMapping(value = "/api/services/data/template/{id}/placeholders/validationrules", method = RequestMethod.PUT)
+	public ResponseEntity<ApiResponse> updateValidationRules(@PathVariable Integer id,
+															 @RequestBody Map<String, Object> placeholderValidation) {
+
+		try {
+			Template templateType = this.dao.getById(id);
+			if (templateType == null) {
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
+			}
+			ValidationRuleDAO validationRuleDAO = new ValidationRuleDAO();
+			validationRuleDAO.updateMultipleForPlaceholders((List<Map<String, Object>>)placeholderValidation.get("placeholderValidation"));
+			return new ApiResponse(this.dao.getById(id)).send(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+		}
+	}
+
+	@RequestMapping(value = "/api/services/data/template/{templateId}/placeholders/validationrules", method = RequestMethod.DELETE)
+	public ResponseEntity<ApiResponse> deleteValidationRules(@PathVariable Integer templateId,
+															 @RequestBody Map<String, Object> ids) {
+
+		try {
+			Template templateType = this.dao.getById(templateId);
+			if (templateType == null) {
+				return new ApiResponse().send(HttpStatus.NOT_FOUND, Constants.TEMPLATE_NOT_FOUND);
+			}
+			ValidationRuleDAO validationRuleDAO = new ValidationRuleDAO();
+			return new ApiResponse(validationRuleDAO.deletePlaceholderValidations((List<Integer>)ids.get("ids"))).send(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ApiResponse().send(HttpStatus.INTERNAL_SERVER_ERROR, Constants.INTERNAL_SERVER_ERROR_MESSAGE);
+		}
+	}
+
 	@RequestMapping(value = "/api/services/data/template", method = RequestMethod.POST)
 	public ResponseEntity<ApiResponse> insert(@RequestParam("template") String templateParam,
 											  @RequestParam("file") MultipartFile file,
@@ -194,13 +247,8 @@ public class TemplateController {
 													      outFilePath,
 														  placeholders)) {  
 					// copy it to response's OutputStream
-					//response.setContentType("application/vnd.oasis.opendocument.text");
 					response.setContentType("application/pdf");
-					//org.apache.commons.io.IOUtils.copy((new FileInputStream(outFilePath.replace(".odt", ".pdf"))), response.getOutputStream());
-			        //response.flushBuffer();
 			        return IOUtils.toByteArray((new FileInputStream(outFilePath.replace(".odt", ".pdf"))));
-			        // delete the created file
-			      //  (new File(outFilePath)).delete();
 				}
 			} catch (Exception e) {
 

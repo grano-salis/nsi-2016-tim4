@@ -1,1 +1,4 @@
 /build/
+node_modules
+client/node_modules
+client/app/bower_components

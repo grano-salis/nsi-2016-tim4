@@ -1,0 +1,31 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment" ng-class="{'loading' : loading}">
+		<a class="ui right floated right labeled icon teal mini button row-spacing" href="/#/template_type/new">
+		  <i class="right plus icon"></i>
+		  Novi tip templatea
+		</a>
+		<table class="ui very compact striped celled table">
+		  <thead>
+		    <tr>
+		    	<th>ID</th>
+			    <th>Naziv tipa templatea</th>
+			    <th>Akcije</th>
+		  	</tr>
+		  </thead>
+		  <tbody>
+		  	<tr ng-repeat="templateType in templateTypes">
+		  		<td>{{templateType.id}}</td>
+		  		<td><a href="/#/template_type/{{templateType.id}}/detail">{{templateType.name}}</a></td>
+		  		<td class="center aligned">
+		  			<span data-tooltip="Edit tip templatea">
+		  				<a href="/#/template_type/{{templateType.id}}"><i class="large blue edit icon"></i></a>
+		  			</span>
+		  			<span data-tooltip="Obriši tip templatea">
+		  				<i class="large red trash outline icon" ng-click="deleteTemplateType(templateType.id)"></i>
+		  			</span>
+		  		</td>
+		  	</tr>
+		  </tbody>
+		</table>
+	</div>
+</div>

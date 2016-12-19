@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.text.View;
-
 import org.jopendocument.dom.template.JavaScriptFileTemplate;
 import org.odftoolkit.odfdom.doc.OdfDocument;
 import org.odftoolkit.odfdom.dom.element.text.TextUserFieldDeclElement;
@@ -32,29 +30,13 @@ import sun.rmi.runtime.Log;
 @Controller
 public class ReportEngineController {
 
-	@RequestMapping("/upload")
-	public ModelAndView getUploadView() {
- 		return new ModelAndView("upload");
-	}
 	
-	@RequestMapping("/documents/add")
-	public ModelAndView getNewDocumentView() {
- 		return new ModelAndView("DodajDokument");
-	}
-	
-	@RequestMapping("/documents/list")
-	public ModelAndView getDocumentsListView() {
- 		return new ModelAndView("DokumentiList");
-	}
-	
-	@RequestMapping("/templates/add")
-	public ModelAndView getNewTemplateTypeView() {
- 		return new ModelAndView("DodajTipPodataka");
-	}
-	
-	@RequestMapping("/templates/list")
-	public ModelAndView getTemplatesTypeListView() {
- 		return new ModelAndView("TipoviPodatakaList");
+	@RequestMapping("/welcome")
+	public ModelAndView helloWorld() {
+ 
+		String message = "<br><div style='text-align:center;'>"
+				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
+		return new ModelAndView("welcome", "message", message);
 	}
 	
 	/**

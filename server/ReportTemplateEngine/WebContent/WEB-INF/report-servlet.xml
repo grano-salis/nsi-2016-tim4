@@ -15,6 +15,8 @@
  
  	<context:component-scan base-package="com.reporttemplateengine" />
  
+ 	<bean id="applicationContextProvider" class="com.reporttemplate.engine.services.utils.ApplicationContextProvider"></bean>
+ 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
@@ -41,16 +43,23 @@
 	<bean id="PlaceholderDAO" class="com.reporttemplateengine.dao.PlaceholderDAO">
 	    <property name="dataSource" ref="dataSource"/>
 	</bean>
+	<bean id="ValidationRuleDAO" class="com.reporttemplateengine.dao.ValidationRuleDAO">
+	    <property name="dataSource" ref="dataSource"/>
+	</bean>
 	<bean id="TemplateDAO" class="com.reporttemplateengine.dao.TemplateDAO">
 	    <property name="dataSource" ref="dataSource"/>
 	    <property name="placeholderDAO" ref="PlaceholderDAO"/>
 	</bean>
-	<bean id="ValidationRuleDAO" class="com.reporttemplateengine.dao.ValidationRuleDAO">
-	    <property name="dataSource" ref="dataSource"/>
-	</bean>
 
+	<!-- Transaction support -->
+	<bean id="transactionManager"
+	  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+	  scope="singleton">
+	  <property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
 	<mvc:annotation-driven />
-	<mvc:resources location="/assets/css/" mapping="/css/**"/>
-	<mvc:resources location="/assets/js/" mapping="/js/**"/>
-	<mvc:resources location="/assets/img/" mapping="/img/**"/>
+	<mvc:resources location="/assets/css/**" mapping="css/**"/>
+	<mvc:resources location="/assets/js/**" mapping="js/**"/>
 </beans>

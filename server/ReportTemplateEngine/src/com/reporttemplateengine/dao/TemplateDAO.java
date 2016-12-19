@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -17,16 +20,26 @@ import com.reporttemplateengine.helpers.AbstractLobPreparedStatementCreator;
 import com.reporttemplateengine.models.Placeholder;
 import com.reporttemplateengine.models.Template;
 import com.reporttemplateengine.models.TemplateDefinition;
+import com.reporttemplateengine.models.ValidationRule;
 import com.reporttemplateengine.models.mappers.TemplateDefinitionIdMapper;
 import com.reporttemplateengine.models.mappers.TemplateMapper;
 
-public class TemplateDAO extends BaseDAO implements ICrud<Template> {
+public class TemplateDAO extends BaseDAO implements ICrud<Template>, ApplicationContextAware {
 	
 	private PlaceholderDAO placeholderDAO;
 
 	public void setPlaceholderDAO(PlaceholderDAO placeholderDAO) {
 		this.placeholderDAO = placeholderDAO;
 	}
+	
+	ApplicationContext applicationContext = null;
+
+	 
+    @Override
+    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
 
 	@Override
 	public List<Template> getAll() {
@@ -47,6 +60,8 @@ public class TemplateDAO extends BaseDAO implements ICrud<Template> {
 				if (placeholders != null) {
 					def.setPlaceholders(placeholders);
 				}
+				ValidationRuleDAO validationRuleDAO = new ValidationRuleDAO();
+				def.setValidationRules(validationRuleDAO.getValidationRulesForPlaceholders(def.getId()));
 				template.setTemplateDefinition(def);
 			}
 		}
@@ -70,6 +85,8 @@ public class TemplateDAO extends BaseDAO implements ICrud<Template> {
 				if (placeholders != null) {
 					def.setPlaceholders(this.placeholderDAO.getAllForTemplate(template.getTemplateDefinition().getId()));
 				}
+				ValidationRuleDAO validationRuleDAO = new ValidationRuleDAO();
+				def.setValidationRules(validationRuleDAO.getValidationRulesForPlaceholders(def.getId()));
 				template.setTemplateDefinition(def);
 			}
 			return template;

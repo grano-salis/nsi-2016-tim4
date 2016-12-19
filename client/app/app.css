@@ -1,0 +1,43 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li + li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.margin-both {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.bottom-border {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.row-spacing {
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+}
+
+#header-menu {
+	padding-bottom: 0px;
+}

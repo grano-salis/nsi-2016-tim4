@@ -1,0 +1,22 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment">
+		<form name="addValidationRuleForm" class="ui form" novalidate>
+			<div class="field" >
+		      <label>Naziv validacionog pravila:</label>
+		      <input type="text" ng-required="true" ng-model="validationRule.name" placeholder="Unesite naziv...">
+		    </div>
+		    <div class="field" >
+		      <label>Vrijednost validacionog pravila:</label>
+		      <input type="text" name="validationRuleValue" ng-required="true" regex-validator ng-model="validationRule.value" placeholder="Unesite vrijednost...">
+		      <div class="ui basic red pointing prompt label transition visible" ng-if="addValidationRuleForm.validationRuleValue.$error.invalidRegex">Vrijednost nije validan RegEx!</div></div>
+		    </div>
+		    <div class="ui one column center aligned fluid grid">
+		    	<div class="one column">
+		    		<button class="ui teal center aligned button" type="button"
+		    				ng-click="saveValidationRule()" ng-disabled="addValidationRuleForm.$invalid"
+		    				ng-class="{'loading' : loading}">Spremi</button>
+		    	</div>
+		    </div>
+		</form>
+	</div>
+</div>

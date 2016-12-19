@@ -3,6 +3,7 @@ package com.reporttemplateengine.models;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +18,7 @@ public class TemplateDefinition {
 	private int version;
 	private int active;
 	private List<Placeholder> placeholders;
+	private List<Map<String, Object>> validationRules;
 	
 	public TemplateDefinition() {}
 
@@ -87,5 +89,13 @@ public class TemplateDefinition {
 
 	public void setPlaceholders(List<Placeholder> placeholders) {
 		this.placeholders = placeholders;
+	}
+
+	public List<Map<String, Object>> getValidationRules() {
+		return validationRules;
+	}
+
+	public void setValidationRules(List<Map<String, Object>> validationRules) {
+		this.validationRules = validationRules;
 	}
 }

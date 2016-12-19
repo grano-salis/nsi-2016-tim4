@@ -1,0 +1,17 @@
+<div class="margin-both" ng-cloak>
+	<div class="ui segment">
+		<form name="editTemplateTypeForm" class="ui form" novalidate>
+			<div class="field" >
+		      <label>Naziv tipa templatea:</label>
+		      <input type="text" ng-required="true" ng-model="templateType.name" placeholder="Unesite naziv...">
+		    </div>
+		    <div class="ui one column center aligned fluid grid">
+		    	<div class="one column">
+		    		<button class="ui teal center aligned button" type="button"
+		    				ng-click="saveTemplateType()" ng-disabled="editTemplateTypeForm.$invalid"
+		    				ng-class="{'loading' : loading}">Spremi</button>
+		    	</div>
+		    </div>
+		</form>
+	</div>
+</div>

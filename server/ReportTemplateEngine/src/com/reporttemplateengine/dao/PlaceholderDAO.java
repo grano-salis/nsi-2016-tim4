@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -43,6 +44,17 @@ public class PlaceholderDAO extends BaseDAO implements ICrud<Placeholder> {
 			return this.jdbcTemplate.queryForObject("SELECT * FROM PLACEHOLDER WHERE id = ?",
 					new Object[]{id},
 					new PlaceholderMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	public List<Map<String, Object>> getValidationRules(Integer id) {
+
+		try {
+			return this.jdbcTemplate.queryForList("SELECT a.validation_rule_id RULE_ID, b.name NAME, b.value VALUE FROM PLACEHOLDERVALIDATION a, VALIDATIONRULE b "
+												+ "WHERE a.placeholder_id = ? and b.id = a.validation_rule_id",
+					new Object[]{id});
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
